@@ -70,7 +70,18 @@ do
     curl -s -X POST -H "Content-Type: application/json" --data-binary @${FILENAME} https://speech.googleapis.com/v1/speech:recognize?key=AIzaSyAOLU6UlhZadXjQVag5IqucvxeQV287LT4 | tee response.json
 #    fi
     
-    node ../parseJson.js
+    speech=$(node ../parseJson.js)
+    
+    echo "$speech"
+    
+    if [ $speech = "snap" ]; then
+        node ../snap.js
+    elif [ $speech = "burst" ]; then
+        node ../burst.js
+    elif [ $speech = "close" ]; then
+        exit
+        
+    fi
     
     sleep 2
 

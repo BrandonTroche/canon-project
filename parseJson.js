@@ -32,7 +32,7 @@ var obj = {
 	}
 }
 
-console.log(obj);
+//console.log(obj);
  
 jsonfile.writeFile(file, obj, {flag: 'a'}, function (err) {
   console.error(err)
