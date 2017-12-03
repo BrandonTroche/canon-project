@@ -30,7 +30,7 @@ cat <<EOF > $FILENAME
   },
   "audio": {
     "content":
-  }
+	}
 }
 EOF
 
@@ -43,7 +43,7 @@ fi
 # Record an audio file, base64 encode it, and update our request object
 read -p "Press enter when you're ready to record" rec
 if [ -z $rec ]; then
-  rec --channels=1 --bits=16 --rate=16000 audio.flac trim 0 5
+  rec --channels=1 --bits=16 --rate=16000 audio.flac trim 0 2
   echo \"`base64 audio.flac`\" > audio.base64
   sed -i '' -e '/"content":/r audio.base64' $FILENAME
 fi
@@ -56,6 +56,6 @@ read -p $'\nPress enter when you\'re ready to call the Speech API' var
 if [ -z $var ];
   then
     echo "Running the following curl command:"
-    echo "curl -s -X POST -H 'Content-Type: application/json' --data-binary @${FILENAME} https://speech.googleapis.com/v1/speech:recognize?key=API_KEY"
-    curl -s -X POST -H "Content-Type: application/json" --data-binary @${FILENAME} https://speech.googleapis.com/v1/speech:recognize?key=YOUR_API_KEY
+    echo "curl -s -X POST -H 'Content-Type: application/json' --data-binary @${FILENAME} https://speech.googleapis.com/v1/speech:recognize?key=AIzaSyAOLU6UlhZadXjQVag5IqucvxeQV287LT4"
+    curl -s -X POST -H "Content-Type: application/json" --data-binary @${FILENAME} https://speech.googleapis.com/v1/speech:recognize?key=AIzaSyAOLU6UlhZadXjQVag5IqucvxeQV287LT4 | tee response.json
 fi

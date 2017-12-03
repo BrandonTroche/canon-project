@@ -6,6 +6,9 @@ const MMCamera   = require('howielib').MMCamera;
 const logger     = require('howielib').Logger;
 var request      = require('request');
 var routes       = require('./routes/routes.js');
+var fs           = require("fs");
+var response     = fs.readFileSync("speech/response.json");
+var responseContent = JSON.parse(response);
 
 function onConnect(responseCode){
     if (responseCode !== 'OK'){
@@ -150,12 +153,13 @@ app.set('view engine', 'ejs');
 
 require('./routes/routes.js');
 
-
-
 //console.log(request.post('https://speech.googleapis.com/v1/speech:recognize?key=AIzaSyAOLU6UlhZadXjQVag5IqucvxeQV287LT4'))
 
 routes(app);
 
+console.log(responseContent.results[0].alternatives[0].transcript);
+
 app.listen(port);
+
 //POST https://speech.googleapis.com/v1/speech:recognize?key=YOUR_API_KEY
 
