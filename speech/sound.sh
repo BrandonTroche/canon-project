@@ -59,3 +59,5 @@ if [ -z $var ];
     echo "curl -s -X POST -H 'Content-Type: application/json' --data-binary @${FILENAME} https://speech.googleapis.com/v1/speech:recognize?key=AIzaSyAOLU6UlhZadXjQVag5IqucvxeQV287LT4"
     curl -s -X POST -H "Content-Type: application/json" --data-binary @${FILENAME} https://speech.googleapis.com/v1/speech:recognize?key=AIzaSyAOLU6UlhZadXjQVag5IqucvxeQV287LT4 | tee response.json
 fi
+
+#node ../app.js

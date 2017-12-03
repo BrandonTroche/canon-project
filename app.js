@@ -16,6 +16,8 @@ function onConnect(responseCode){
         return;
     }
     
+//    snapping(cam);
+    
 }
 
 function wifiSettings(camera){
@@ -130,36 +132,91 @@ function getPic(camera){
 
 app.use(morgan('dev')); // log every request to the console
 
-var port = process.env.PORT || 3340;
+//var port = process.env.PORT || 3340;
 
-var urlencodedParser = bodyParser.urlencoded({extended:false});
+//var urlencodedParser = bodyParser.urlencoded({extended:false});
 
-app.use('/assets', express.static(__dirname + '/public'));
+//app.use('/assets', express.static(__dirname + '/public'));
 
-app.set('view engine', 'ejs');
+//app.set('view engine', 'ejs');
 
-//let cam = new MMCamera();
+logger.setLevel('normal');
+
+let cam = new MMCamera();
 
 //wifiSettings(cam);
 
 //var camUUID = '00000000-0000-0000-FFFF-A0CC2B5F90F4';
-//
-//cam.ipConnect(onConnect, {uuid: camUUID});
-//
-//logger.setLevel('normal');
-//
-//snapping(cam);
-//getPic(cam);
 
-require('./routes/routes.js');
+//cam.ipConnect(onConnect, {uuid: camUUID});
+
+//require('./routes/routes.js');
 
 //console.log(request.post('https://speech.googleapis.com/v1/speech:recognize?key=AIzaSyAOLU6UlhZadXjQVag5IqucvxeQV287LT4'))
 
-routes(app);
+//routes(app);
 
-console.log(responseContent.results[0].alternatives[0].transcript);
+var voiceCommand = responseContent.results[0].alternatives[0].transcript;
 
-app.listen(port);
+console.log(voiceCommand);
+
+if (voiceCommand == 'snap'){
+    cam.ipConnect((responseCode) => {
+
+        if (responseCode !== 'OK') {
+            logger.red('connection problem: ' + responseCode);
+            process.exit(0);
+        }
+
+        // ask the camera to snap a photo
+        cam.snap()
+            .then((response) => {
+
+            console.dir(response);
+            logger.green('snap done. exiting.');
+
+            process.exit(0);
+
+        })
+            .catch((error) => {
+
+            logger.red('got error: ');
+            logger.red(error);
+
+        });
+    
+        
+        camera.getLastImage()
+            .then((response) => {
+
+            // get the first and only item in the response array
+            let lastItem = response[0];
+            logger.green('got image');
+
+            // print the information about the image
+            logger.dir(lastItem.info);
+
+            // save the image
+            let filename = 'img/last-img.jpg';
+            fs.writeFileSync(filename, lastItem.image, {encoding: 'binary'});
+            logger.green('saved image to ' + filename);
+
+            process.exit(0);
+
+        })
+            .catch((error) => {
+
+            logger.red('got error: ');
+            logger.red(error);
+
+        });
+
+    });
+} else if (voiceCommand == 'snap'){
+    
+}
+
+//app.listen(port);
 
 //POST https://speech.googleapis.com/v1/speech:recognize?key=YOUR_API_KEY
 
