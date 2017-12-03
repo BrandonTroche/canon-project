@@ -22,7 +22,7 @@ function onConnect(responseCode){
         return;
     }
     
-//    snapping(cam);
+    snapping(cam);
     
 }
 
@@ -72,12 +72,12 @@ function wifiSettings(camera){
 
 function snapping(camera){
     // connect to the camera using PTP-IP
-    camera.ipConnect((responseCode) => {
+//    camera.ipConnect((responseCode) => {
 
-        if (responseCode !== 'OK') {
-            logger.red('connection problem: ' + responseCode);
-            process.exit(0);
-        }
+//        if (responseCode !== 'OK') {
+//            logger.red('connection problem: ' + responseCode);
+//            process.exit(0);
+//        }
 
         // ask the camera to snap a photo
         camera.snap()
@@ -86,7 +86,7 @@ function snapping(camera){
             console.dir(response);
             logger.green('snap done. exiting.');
 
-            process.exit(0);
+//            process.exit(0);
 
         })
             .catch((error) => {
@@ -96,16 +96,16 @@ function snapping(camera){
 
         });
 
-    });
+//    });
 }
 
 function getPic(camera){
-    camera.ipConnect((responseCode) => {
-
-  if (responseCode !== 'OK') {
-    logger.red('connection problem: ' + responseCode);
-    process.exit(0);
-  }
+//    camera.ipConnect((responseCode) => {
+//
+//  if (responseCode !== 'OK') {
+//    logger.red('connection problem: ' + responseCode);
+//    process.exit(0);
+//  }
 
   // ask the camera for the last image
   camera.getLastImage()
@@ -133,7 +133,8 @@ function getPic(camera){
 
   });
 
-});
+//});
+
 }
 
 app.use(morgan('dev')); // log every request to the console
@@ -152,9 +153,10 @@ let cam = new MMCamera();
 
 //wifiSettings(cam);
 
-//var camUUID = '00000000-0000-0000-FFFF-A0CC2B5F90F4';
+var camUUID = '00000000-0000-0000-FFFF-A0CC2B5F90F4';
 
-//cam.ipConnect(onConnect, {uuid: camUUID});
+cam.ipConnect(onConnect, {uuid: camUUID});
+
 
 //require('./routes/routes.js');
 
@@ -162,94 +164,94 @@ let cam = new MMCamera();
 
 //routes(app);
 
-var voiceCommand = responseContent.results[0].alternatives[0].transcript;
+//var voiceCommand = responseContent.results[0].alternatives[0].transcript;
 
-console.log(voiceCommand);
-
-if (voiceCommand == 'snap'){
-    cam.ipConnect((responseCode) => {
-
-        if (responseCode !== 'OK') {
-            logger.red('connection problem: ' + responseCode);
-            process.exit(0);
-        }
-
-        // ask the camera to snap a photo
-        cam.snap()
-            .then((response) => {
-
-            console.dir(response);
-            logger.green('snap done. exiting.');
-
+//console.log(voiceCommand);
+//
+//if (voiceCommand == 'snap'){
+//    cam.ipConnect((responseCode) => {
+//
+//        if (responseCode !== 'OK') {
+//            logger.red('connection problem: ' + responseCode);
 //            process.exit(0);
-
-        })
-            .catch((error) => {
-
-            logger.red('got error: ');
-            logger.red(error);
-
-        });
-    
-        
-        cam.getLastImage()
-            .then((response) => {
-
-            // get the first and only item in the response array
-            let lastItem = response[0];
-            logger.green('got image');
-
-            // print the information about the image
-            logger.dir(lastItem.info);
-
-            // save the image
-            let filename = 'img/last-img.jpg';
-            fs.writeFileSync(filename, lastItem.image, {encoding: 'binary'});
-            logger.green('saved image to ' + filename);
-
-            process.exit(0);
-
-        })
-            .catch((error) => {
-
-            logger.red('got error: ');
-            logger.red(error);
-
-        });
-
-    });
-} else if (voiceCommand == 'shoot' /*|| cam.frame.shock >= 2*/){
-    const options = process.argv.slice(2).reduce((acc, arg) => {
-
-    let [k, v = true] = arg.split('=');
-    switch (k) {
-
-      case 'frames':
-        v = parseInt(v);
-        if (typeof v === 'number' && v < 20 && v > 0) {
-          IMG_COUNT = v;
-        } 
-        break;
-      case 'interval':
-        v = parseInt(v);
-        if (typeof v === 'number' && v > 500) {
-          INTERVAL_MS = v;
-        }
-        break;
-    }
-
-    acc[k] = v;
-    return acc;
-
-}, {})
-
-if (options.debug === 'true') {
-  logger.setLevel('debug');
-}
-
-if (options.size !== undefined && options.size === 'full') {
-  FULL_SIZE = true;
-}
+//        }
+//
+//        // ask the camera to snap a photo
+//        cam.snap()
+//            .then((response) => {
+//
+//            console.dir(response);
+//            logger.green('snap done. exiting.');
+//
+////            process.exit(0);
+//
+//        })
+//            .catch((error) => {
+//
+//            logger.red('got error: ');
+//            logger.red(error);
+//
+//        });
+//    
+//        
+//        cam.getLastImage()
+//            .then((response) => {
+//
+//            // get the first and only item in the response array
+//            let lastItem = response[0];
+//            logger.green('got image');
+//
+//            // print the information about the image
+//            logger.dir(lastItem.info);
+//
+//            // save the image
+//            let filename = 'img/last-img.jpg';
+//            fs.writeFileSync(filename, lastItem.image, {encoding: 'binary'});
+//            logger.green('saved image to ' + filename);
+//
+//            process.exit(0);
+//
+//        })
+//            .catch((error) => {
+//
+//            logger.red('got error: ');
+//            logger.red(error);
+//
+//        });
+//
+//    });
+//} else if (voiceCommand == 'shoot' /*|| cam.frame.shock >= 2*/){
+//    const options = process.argv.slice(2).reduce((acc, arg) => {
+//
+//    let [k, v = true] = arg.split('=');
+//    switch (k) {
+//
+//      case 'frames':
+//        v = parseInt(v);
+//        if (typeof v === 'number' && v < 20 && v > 0) {
+//          IMG_COUNT = v;
+//        } 
+//        break;
+//      case 'interval':
+//        v = parseInt(v);
+//        if (typeof v === 'number' && v > 500) {
+//          INTERVAL_MS = v;
+//        }
+//        break;
+//    }
+//
+//    acc[k] = v;
+//    return acc;
+//
+//}, {})
+//
+//if (options.debug === 'true') {
+//  logger.setLevel('debug');
+//}
+//
+//if (options.size !== undefined && options.size === 'full') {
+//  FULL_SIZE = true;
+//}
 
 
 let imgCounter = 0;
@@ -257,15 +259,15 @@ let imageFiles = [];
 
 
 // connect to the camera using PTP-IP
-cam.ipConnect((responseCode) => {
-  if (responseCode === 'OK') {
+//cam.ipConnect((responseCode) => {
+//  if (responseCode === 'OK') {
     gifLoop();
-  } else {
-    logger.red('Problem connecting: ' + responseCode);
-    process.exit(0);
-  }
-
-});
+//  } else {
+//    logger.red('Problem connecting: ' + responseCode);
+//    process.exit(0);
+//  }
+//
+//});
 
 
 function gifLoop() {
@@ -363,7 +365,7 @@ function generateGif(files) {
 
 }
 
-} //else if(cam.frame.shock >= 2)
+ //else if(cam.frame.shock >= 2)
 
 //app.listen(port);
 
