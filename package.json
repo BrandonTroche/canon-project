@@ -13,6 +13,7 @@
     "body-parser": "^1.18.2",
     "ejs": "^2.5.7",
     "express": "^4.16.2",
+    "jsonfile": "^4.0.0",
     "morgan": "^1.9.0",
     "nodemon": "^1.12.1",
     "recorder-js": "^1.0.7"
