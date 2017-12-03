@@ -218,7 +218,7 @@ if (voiceCommand == 'snap'){
         });
 
     });
-} else if (voiceCommand == 'shoot'){
+} else if (voiceCommand == 'shoot' /*|| cam.frame.shock >= 2*/){
     const options = process.argv.slice(2).reduce((acc, arg) => {
 
     let [k, v = true] = arg.split('=');
@@ -363,7 +363,7 @@ function generateGif(files) {
 
 }
 
-}
+} //else if(cam.frame.shock >= 2)
 
 //app.listen(port);
 
