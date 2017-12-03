@@ -74,13 +74,17 @@ do
     
     echo "$speech"
     
-    if [ $speech = "snap" ]; then
+    if [ "$speech" = "Mike photo" ]; then
         node ../snap.js
-    elif [ $speech = "burst" ]; then
+        say 'Picture Taken'
+    elif [ "$speech" = "Mike burst" ]; then
         node ../burst.js
-    elif [ $speech = "close" ]; then
+        say 'Burst Taken'
+    elif [ "$speech" = "Mike close" ]; then
+        say 'Good Bye'
         exit
-        
+    elif [ "$speech" = "who is the best camera company in the world" ]; then
+        say 'Canon is!'
     fi
     
     sleep 2

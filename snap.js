@@ -1,6 +1,7 @@
 /* user modules */
 const Camera = require('howielib').MMCamera;
 const logger = require('howielib').Logger;
+var fs       = require("fs");
 
 logger.setLevel('normal');
 const camera = new Camera();
@@ -31,30 +32,30 @@ camera.ipConnect((responseCode) => {
 
   });
     
-    camera.getLastImage()
-            .then((response) => {
-
-            // get the first and only item in the response array
-            let lastItem = response[0];
-            logger.green('got image');
-
-            // print the information about the image
-            logger.dir(lastItem.info);
-
-            // save the image
-            let filename = 'img/last-img.jpg';
-            fs.writeFileSync(filename, lastItem.image, {encoding: 'binary'});
-            logger.green('saved image to ' + filename);
-
-            process.exit(0);
-
-        })
-            .catch((error) => {
-
-            logger.red('got error: ');
-            logger.red(error);
-
-        });
+//    camera.getLastImage()
+//            .then((response) => {
+//
+//            // get the first and only item in the response array
+//            let lastItem = response[0];
+//            logger.green('got image');
+//
+//            // print the information about the image
+//            logger.dir(lastItem.info);
+//
+//            // save the image
+//            let filename = 'img/last-img.jpg';
+//            fs.writeFileSync(filename, lastItem.image, {encoding: 'binary'});
+//            logger.green('saved image to ' + filename);
+//
+//            process.exit(0);
+//
+//        })
+//            .catch((error) => {
+//
+//            logger.red('got error: ');
+//            logger.red(error);
+//
+//        });
 
 }, {uuid: camUUID});
 
